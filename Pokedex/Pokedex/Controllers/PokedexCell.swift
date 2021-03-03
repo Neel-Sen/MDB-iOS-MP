@@ -12,8 +12,8 @@ class PokedexCell: UICollectionViewCell {
     
     var pokemonk: Pokemon? {
         didSet {
-            let url = URL(string: (pokemonk?.imageUrl)!)
-            let data = try? Data(contentsOf: url!)
+            let url = URL(string: (pokemonk?.imageUrl)!)!
+            let data = try? Data(contentsOf: url)
             imageView.image = UIImage(data: data!)
             titleView.text = pokemonk?.name
             
@@ -41,8 +41,8 @@ class PokedexCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = #colorLiteral(red: 0.9321283102, green: 0, blue: 0.5649608374, alpha: 1)
-        contentView.backgroundColor = #colorLiteral(red: 0.9321283102, green: 0, blue: 0.5649608374, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        contentView.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
         NSLayoutConstraint.activate([
