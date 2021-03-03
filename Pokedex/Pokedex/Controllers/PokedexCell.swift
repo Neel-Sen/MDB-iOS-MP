@@ -12,18 +12,12 @@ class PokedexCell: UICollectionViewCell {
     
     var pokemonk: Pokemon? {
         didSet {
-            let url = URL(string: (pokemonk?.imageUrl)!)
-            //let data = try? Data(contentsOf: url!)
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-                DispatchQueue.main.async {
-                    imageView.image = UIImage(data: data!)
+            if let url = URL(string: pokemonk!.imageUrl) {
+                if let data = try? Data(contentsOf: url) {
+                    imageView.image = UIImage(data: data) //janky as FUCK
                 }
             }
-            //imageView.image = UIImage(data: data!)
-            titleView.text = pokemonk?.name
-
-            
+            titleView.text = pokemonk!.name //should I put this inside the nested if-lets?
         }
     }
     private let imageView: UIImageView = {

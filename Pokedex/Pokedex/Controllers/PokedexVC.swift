@@ -27,7 +27,7 @@ class PokedexVC: UIViewController {
         view.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         
         view.addSubview(collectionView)
-        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 40, left: 100, bottom: 40, right: 100))
+        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 40, left: 100, bottom: 40, right: 20))
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = true
