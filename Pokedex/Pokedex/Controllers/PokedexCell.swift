@@ -22,27 +22,36 @@ class PokedexCell: UICollectionViewCell {
     }
     private let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.tintColor = .red
+        iv.tintColor = .black
         iv.contentMode = .scaleAspectFit
-        
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     private let titleView: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .blue
+        label.font = .systemFont(ofSize: 20)
+        label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 2
         
         return label
     }()
     
+    private let idView: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 20)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        contentView.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        contentView.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
         NSLayoutConstraint.activate([
@@ -53,7 +62,11 @@ class PokedexCell: UICollectionViewCell {
             titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -5),
-            imageView.heightAnchor.constraint(equalToConstant: 60)
+            imageView.heightAnchor.constraint(equalToConstant: 60),
+            idView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
+            idView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            idView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            //fix this pls
         ])
     }
     

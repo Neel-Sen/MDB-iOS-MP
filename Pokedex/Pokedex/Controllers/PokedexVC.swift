@@ -13,7 +13,7 @@ class PokedexVC: UIViewController {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 30
-        layout.minimumInteritemSpacing = 30
+        layout.minimumInteritemSpacing = 50
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -24,10 +24,10 @@ class PokedexVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)
         
         view.addSubview(collectionView)
-        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 40, left: 100, bottom: 40, right: 20))
+        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 40, left: 75, bottom: 40, right: 75))
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = true
@@ -54,20 +54,15 @@ extension PokedexVC: UICollectionViewDataSource {
 extension PokedexVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt IndexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 100)
+        return CGSize(width: 104, height: 104)
     }
-    /*func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        let pokemon = pokemons[indexPath.item]
-        return UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: {
-            return PokedexVC(coder: pokemon)
-        }, actionProvider: { _ in
-            let okItem = UIAction(title: "Pokemon", image: UIImage(systemName: "arrow.down.left")) { _ in }
-            return UIMenu(title: "", image: nil, identifier: nil, children: [okItem])
-        })
-    }*/
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let pokemon = pokemons[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokedexCell.reuseIdentifier, for: indexPath)
+            as! PokedexCell
+        cell.pokemonk = pokemon
+            
         print("Selected \(pokemon.name)")
     }
 }
