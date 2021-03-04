@@ -63,6 +63,8 @@ class StartVC: UIViewController {
         
         // MARK: >> Your Code Here <<
         
+        button.backgroundImage(for: .normal)
+        
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -127,6 +129,7 @@ class StartVC: UIViewController {
         // A view must be in the hierarchy before constraints are added.
         NSLayoutConstraint.activate([
             // MARK: >> Your Code Here <<
+            
         ])
         
         // MARK: STEP 3: Adding Callbacks

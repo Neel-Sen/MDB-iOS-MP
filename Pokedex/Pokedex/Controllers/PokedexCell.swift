@@ -63,13 +63,13 @@ class PokedexCell: UICollectionViewCell {
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -5),
-            imageView.heightAnchor.constraint(equalToConstant: 60),
             idView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
             idView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             idView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            idView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 5),
-            //idView.heightAnchor.constraint(equalTo: titleView.heightAnchor, constant: <#T##CGFloat#>)
+            idView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 0),
+            imageView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -5),
+            imageView.heightAnchor.constraint(equalToConstant: 60)
+
             
             //fix this pls
         ])

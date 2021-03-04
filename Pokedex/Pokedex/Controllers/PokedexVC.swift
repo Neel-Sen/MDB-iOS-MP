@@ -21,12 +21,23 @@ class PokedexVC: UIViewController {
         
         return collectionView
     }()
+    
+    private let button: UIButton = {
+        let grid = UIButton()
+        grid.setTitle("Grid", for: .normal)
+        grid.setTitleColor(.blue, for: .normal)
+        grid.backgroundImage(for: .normal)
+        grid.translatesAutoresizingMaskIntoConstraints = false
+        
+        return grid
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)
         
         view.addSubview(collectionView)
+        view.addSubview(button)
         collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 20, left: 30, bottom: 20, right: 30))
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -54,13 +65,14 @@ extension PokedexVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt IndexPath: IndexPath) -> CGSize {
         return CGSize(width: 160, height: 160)
+        //grid shit here
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let pokemon = pokemons[indexPath.item]
-        let vc = PokemonVC(pokemon)
+        let vc = PokemonVC(pokemon: pokemon)
         self.navigationController?.pushViewController(vc, animated: true)
-        
+        print(pokemon.types)
         print("Selected \(pokemon.name)")
     }
 }
