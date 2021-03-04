@@ -13,7 +13,7 @@ class PokedexVC: UIViewController {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 30
-        layout.minimumInteritemSpacing = 50
+        layout.minimumInteritemSpacing = 30
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -27,7 +27,7 @@ class PokedexVC: UIViewController {
         view.backgroundColor = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)
         
         view.addSubview(collectionView)
-        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 40, left: 75, bottom: 40, right: 75))
+        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 20, left: 30, bottom: 20, right: 30))
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = true
@@ -46,7 +46,6 @@ extension PokedexVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokedexCell.reuseIdentifier,
                                                       for: indexPath) as! PokedexCell
         cell.pokemonk = poke
-        
         return cell
     }
 }
@@ -54,15 +53,14 @@ extension PokedexVC: UICollectionViewDataSource {
 extension PokedexVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt IndexPath: IndexPath) -> CGSize {
-        return CGSize(width: 104, height: 104)
+        return CGSize(width: 160, height: 160)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let pokemon = pokemons[indexPath.item]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokedexCell.reuseIdentifier, for: indexPath)
-            as! PokedexCell
-        cell.pokemonk = pokemon
-            
+        let vc = PokemonVC(pokemon)
+        self.navigationController?.pushViewController(vc, animated: true)
+        
         print("Selected \(pokemon.name)")
     }
 }

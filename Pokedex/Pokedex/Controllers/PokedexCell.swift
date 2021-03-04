@@ -14,10 +14,11 @@ class PokedexCell: UICollectionViewCell {
         didSet {
             if let url = URL(string: pokemonk!.imageUrl) {
                 if let data = try? Data(contentsOf: url) {
-                    imageView.image = UIImage(data: data) //janky as FUCK
+                    imageView.image = UIImage(data: data)
                 }
             }
             titleView.text = pokemonk!.name //should I put this inside the nested if-lets?
+            idView.text = String(pokemonk!.id)
         }
     }
     private let imageView: UIImageView = {
@@ -54,6 +55,7 @@ class PokedexCell: UICollectionViewCell {
         contentView.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
+        contentView.addSubview(idView)
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -65,7 +67,10 @@ class PokedexCell: UICollectionViewCell {
             imageView.heightAnchor.constraint(equalToConstant: 60),
             idView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
             idView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            idView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            idView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            idView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 5),
+            //idView.heightAnchor.constraint(equalTo: titleView.heightAnchor, constant: <#T##CGFloat#>)
+            
             //fix this pls
         ])
     }
