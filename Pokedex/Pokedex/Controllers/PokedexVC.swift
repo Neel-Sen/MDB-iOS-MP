@@ -8,7 +8,7 @@
 import UIKit
 
 class PokedexVC: UIViewController {
-    
+    var isRow = false
     let pokemons = PokemonGenerator.shared.getPokemonArray()
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -24,13 +24,23 @@ class PokedexVC: UIViewController {
     
     private let button: UIButton = {
         let grid = UIButton()
-        grid.setTitle("Grid", for: .normal)
+        grid.setTitle("Row", for: .normal)
         grid.setTitleColor(.blue, for: .normal)
         grid.backgroundImage(for: .normal)
         grid.translatesAutoresizingMaskIntoConstraints = false
         
         return grid
     }()
+    
+    @objc func didTapButton(_ sender: UIButton) {
+        if isRow == false {
+            isRow = true
+        } else {
+            isRow = false
+        }
+        return
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -43,6 +53,12 @@ class PokedexVC: UIViewController {
         collectionView.dataSource = self
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            button.leftAnchor.constraint(equalTo: view.leftAnchor)
+        ])
     }
 }
 
@@ -64,8 +80,11 @@ extension PokedexVC: UICollectionViewDataSource {
 extension PokedexVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt IndexPath: IndexPath) -> CGSize {
-        return CGSize(width: 160, height: 160)
-        //grid shit here
+        if isRow == true {
+            return CGSize(width: view.bounds.width * 0.8, height: view.bounds.height * 0.2)
+        } else {
+            return CGSize(width: view.bounds.width * 0.35, height: view.bounds.height * 0.15)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

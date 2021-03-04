@@ -188,16 +188,6 @@ class PokemonVC: UIViewController {
         // Do any additional setup after loading the view.
         
         NSLayoutConstraint.activate([
-            /*imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            idLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            healthLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            typeLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            attackLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            defenseLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            spAttackLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            spDefenseLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            speedLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)*/
             view.centerXAnchor.constraint(equalTo: cView.centerXAnchor),
             view.centerYAnchor.constraint(equalTo: cView.centerYAnchor),
             cView.widthAnchor.constraint(equalToConstant: view.bounds.width * 0.75)

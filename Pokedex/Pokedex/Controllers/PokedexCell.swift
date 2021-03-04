@@ -73,7 +73,6 @@ class PokedexCell: UICollectionViewCell {
             imageView.heightAnchor.constraint(equalToConstant: 60)
 
             
-            //fix this pls
         ])
     }
     
