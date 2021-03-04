@@ -17,8 +17,8 @@ class PokedexCell: UICollectionViewCell {
                     imageView.image = UIImage(data: data)
                 }
             }
-            titleView.text = pokemonk!.name //should I put this inside the nested if-lets?
-            idView.text = String(pokemonk!.id)
+            idView.text = pokemonk!.name //should I put this inside the nested if-lets?
+            titleView.text = String(pokemonk!.id)
         }
     }
     private let imageView: UIImageView = {
@@ -34,7 +34,7 @@ class PokedexCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 20)
         label.textColor = .white
         label.textAlignment = .center
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         
         return label
     }()
@@ -45,7 +45,7 @@ class PokedexCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 20)
         label.textColor = .white
         label.textAlignment = .center
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         return label
     }()
     
@@ -56,18 +56,20 @@ class PokedexCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(titleView)
         contentView.addSubview(idView)
+
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            idView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
+            idView.topAnchor.constraint(equalTo: contentView.bottomAnchor),
             idView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             idView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            idView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 0),
-            imageView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -5),
+            idView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -10),
+            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+
+            imageView.bottomAnchor.constraint(equalTo: idView.topAnchor, constant: -5),
             imageView.heightAnchor.constraint(equalToConstant: 60)
 
             
