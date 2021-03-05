@@ -16,7 +16,7 @@ class PokemonVC: UIViewController {
         stack.axis = .vertical
         stack.distribution = .equalSpacing
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.spacing = 40
+        stack.spacing = 20
         return stack
     }()
     

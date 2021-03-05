@@ -23,10 +23,12 @@ class PokedexVC: UIViewController {
     }()
     
     private let button: UIButton = {
-        let grid = UIButton()
+        let grid = UIButton(frame: CGRect(x: 1300, y: 400, width: 50, height: 50))
         grid.setTitle("Row", for: .normal)
         grid.setTitleColor(.blue, for: .normal)
         grid.backgroundImage(for: .normal)
+        grid.backgroundColor = .red
+        grid.tintColor = .black
         grid.translatesAutoresizingMaskIntoConstraints = false
         
         return grid
@@ -48,16 +50,22 @@ class PokedexVC: UIViewController {
         
         view.addSubview(collectionView)
         view.addSubview(button)
+        //button.frame = CGRectMake(800, 700, 100, 100)
+        //button.frame = view.bounds.inset(by: UIEdgeInsets(top: 80, left: 400, bottom: 800, right: 200))
         collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 20, left: 30, bottom: 20, right: 30))
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
+        //view.bringSubviewToFront(button)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            button.leftAnchor.constraint(equalTo: view.leftAnchor)
+            //button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
+            //button.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            //button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
+            //button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)
         ])
     }
 }
@@ -81,9 +89,9 @@ extension PokedexVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt IndexPath: IndexPath) -> CGSize {
         if isRow == true {
-            return CGSize(width: view.bounds.width * 0.8, height: view.bounds.height * 0.2)
+            return CGSize(width: view.bounds.width * 0.6, height: view.bounds.height * 0.2)
         } else {
-            return CGSize(width: view.bounds.width * 0.35, height: view.bounds.height * 0.15)
+            return CGSize(width: view.bounds.width * 0.35, height: view.bounds.height * 0.2)
         }
     }
     

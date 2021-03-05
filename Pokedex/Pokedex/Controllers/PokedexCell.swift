@@ -51,11 +51,11 @@ class PokedexCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
         contentView.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-        contentView.addSubview(imageView)
-        contentView.addSubview(titleView)
-        contentView.addSubview(idView)
+        addSubview(imageView)
+        addSubview(titleView)
+        addSubview(idView)
 
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -64,13 +64,13 @@ class PokedexCell: UICollectionViewCell {
             idView.topAnchor.constraint(equalTo: contentView.bottomAnchor),
             idView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             idView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            idView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -10),
+            idView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -1 * frame.height / 275),
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1 * (frame.height / 140)),
             titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 
             imageView.bottomAnchor.constraint(equalTo: idView.topAnchor, constant: -5),
-            imageView.heightAnchor.constraint(equalToConstant: 60)
+            imageView.heightAnchor.constraint(equalToConstant: frame.height / 2)
 
             
         ])
