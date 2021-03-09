@@ -49,7 +49,7 @@ class SigninVC: UIViewController {
     
     private let passwordTextField: AuthTextField = {
         let tf = AuthTextField(title: "Password:")
-        
+        //hide the password
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
@@ -187,7 +187,12 @@ class SigninVC: UIViewController {
     }
     
     @objc private func didTapSignUp(_ sender: UIButton) {
-        
+        //MARK: Work here to create button connection between view/feed and model
+        guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return } //not sure if I need this
+        let vc = FeedNavigationVC()
+        window.rootViewController = vc
+        window.makeKeyAndVisible()
+        //let duration: TimeInterval = 0.5
     }
     
     private func showErrorBanner(withTitle title: String, subtitle: String? = nil) {
