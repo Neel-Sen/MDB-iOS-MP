@@ -25,6 +25,16 @@ class FIRAuthProvider {
         case unspecified
     }
     
+    enum SignUpErrors: Error {
+        case weakPassword
+        case emailAlreadyInUse
+        case missingFields
+        case unspecified
+        case internalError
+        case errorFetchingUserDoc
+        case errorDecodingUserDoc
+    }
+    
     let db = Firestore.firestore()
     
     var currentUser: User?
@@ -68,10 +78,42 @@ class FIRAuthProvider {
     }
     
     /* TODO: Firebase sign up handler, add user to firestore */
-    func signUp() {
+    func signUp(email: String, password: String, fullName: String, username: String,
+                completion: ((Result<User, SignUpErrors>)->Void)?) {
+        //handle missing fields here
+        auth.createUser(withEmail: email, password: password) { [weak self] authResult, error in
+            if let error = error {
+                let nsError = error as NSError
+                let errorCode = FirebaseAuth.AuthErrorCode(rawValue: nsError.code)
+                
+                switch errorCode {
+                case .weakPassword:
+                    completion?(.failure(.weakPassword))
+                case .emailAlreadyInUse:
+                    completion?(.failure(.emailAlreadyInUse))
+                case .missingEmail: //equivalent to missing fields? no
+                    completion?(.failure(.missingFields))
+                default:
+                    completion?(.failure(.unspecified))
+                }
+                return
+            }
+            
+            guard let authResult = authResult else {
+                completion?(.failure(.internalError))
+                return
+            }
+            let u = User(uid: authResult.user.uid, username: username, email: email, fullname: fullName, savedEvents: [])
+            let request = FIRDatabaseRequest()
+            request.setUser(u, completion: {completion})
+
+            //self?.connectToFirestore(email: email, fullName: fullName, username: username, uid: authResult.user.uid, completion: completion)
+            self?.linkUserSignUp(withuid: authResult.user.uid, completion: completion) //Think I need to link user
+        }
+
         
     }
-    
+
     func isSignedIn() -> Bool {
         return auth.currentUser != nil
     }
@@ -101,7 +143,23 @@ class FIRAuthProvider {
             completion?(.success(user))
         }
     }
-    
+    private func linkUserSignUp(withuid uid: String,
+                          completion: ((Result<User, SignUpErrors>)->Void)?) {
+        
+        userListener = db.collection("users").document(uid).addSnapshotListener { [weak self] docSnapshot, error in
+            guard let document = docSnapshot else {
+                completion?(.failure(.errorFetchingUserDoc))
+                return
+            }
+            guard let user = try? document.data(as: User.self) else {
+                completion?(.failure(.errorDecodingUserDoc))
+                return
+            }
+            
+            self?.currentUser = user
+            completion?(.success(user))
+        }
+    }
     private func unlinkCurrentUser() {
         userListener?.remove()
         currentUser = nil

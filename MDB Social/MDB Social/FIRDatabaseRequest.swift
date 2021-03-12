@@ -33,4 +33,29 @@ class FIRDatabaseRequest {
     }
     
     /* TODO: Events getter */
+    
+    func getEvent(_ event: Event, completion: (()->Void)?) {
+        guard let id = event.id else { return }
+        
+        do {
+            try db.collection("events").document(id).getDocument { (document, error) in
+                let result = Result {
+                    try document?.data(as: User.self)
+                    }
+                    switch result {
+                    case .success(let city):
+                        if let city = city {
+                        } else {
+                            // A nil value was successfully initialized from the DocumentSnapshot,
+                            // or the DocumentSnapshot was nil.
+                            print("Document does not exist")
+                        }
+                    case .failure(let error):
+                        // A `City` value could not be initialized from the DocumentSnapshot.
+                        print("Error decoding city: \(error)")
+                    }
+            }
+            completion?()
+        } catch { }
+    }
 }

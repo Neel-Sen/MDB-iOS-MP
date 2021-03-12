@@ -188,11 +188,9 @@ class SigninVC: UIViewController {
     
     @objc private func didTapSignUp(_ sender: UIButton) {
         //MARK: Work here to create button connection between view/feed and model
-        guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return } //not sure if I need this
-        let vc = FeedNavigationVC()
-        window.rootViewController = vc
-        window.makeKeyAndVisible()
-        //let duration: TimeInterval = 0.5
+        //guard let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first else { return } //not sure if I need this
+        let vc = SignUpVC()
+        present(vc, animated: true, completion: nil)
     }
     
     private func showErrorBanner(withTitle title: String, subtitle: String? = nil) {
