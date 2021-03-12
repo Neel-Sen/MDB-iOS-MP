@@ -12,7 +12,7 @@ class FeedNavigationVC: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let vc = SignUpVC()
+        //let vc = FeedVC()
         //present(vc, animated: true) {
            // self.pushViewController(vc, animated: true) //idk what this is
         //}

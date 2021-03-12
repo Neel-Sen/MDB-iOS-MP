@@ -1,16 +1,13 @@
 //
-//  EventVC.swift
+//  DisplayUserVC.swift
 //  MDB Social
 //
-//  Created by Neel Ayon Sen on 11/3/21.
+//  Created by Neel Ayon Sen on 12/3/21.
 //
 
 import UIKit
 
-class EventVC: UIViewController {
-    
-    static let reuseIdentifier: String = String(describing: EventVC.self)
-
+class DisplayUserVC: UIViewController {
     private let stack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -23,19 +20,14 @@ class EventVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .purple
         view.addSubview(stack)
         stack.addArrangedSubview(nameLabel)
-        stack.addArrangedSubview(descriptionLabel)
-        stack.addArrangedSubview(photoLabel)
-        stack.addArrangedSubview(startLabel)
-        stack.addArrangedSubview(rsvpLabel)
-        stack.addArrangedSubview(creatorLabel)
-        stack.addArrangedSubview(startDateLabel)
+        stack.addArrangedSubview(userNameLabel)
+        stack.addArrangedSubview(emailLabel)
+        stack.addArrangedSubview(passwordLabel)
         stack.addSubview(backButton)
         // Do any additional setup after loading the view.
     }
-    
     private let nameLabel: UILabel = {
          let label = UILabel()
          label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,71 +39,39 @@ class EventVC: UIViewController {
          label.text = "Name: "
          return label
      }()
-     
-     private let descriptionLabel: UILabel = {
-         let label = UILabel()
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.font = .systemFont(ofSize: 30)
-         label.textColor = .white
-         label.textAlignment = .center
-         
-         label.numberOfLines = 1
-         label.text = "Health: "
-         return label
-     }()
-     
-     private let photoLabel: UILabel = {
+    private let userNameLabel: UILabel = {
          let label = UILabel()
          label.translatesAutoresizingMaskIntoConstraints = false
          label.font = .systemFont(ofSize: 30)
          label.textColor = .white
          label.textAlignment = .center
          label.numberOfLines = 1
-         label.text = "Types: "
+
+         label.text = "Name: "
          return label
      }()
-     
-     private let startLabel: UILabel = {
+    private let emailLabel: UILabel = {
          let label = UILabel()
          label.translatesAutoresizingMaskIntoConstraints = false
          label.font = .systemFont(ofSize: 30)
          label.textColor = .white
          label.textAlignment = .center
          label.numberOfLines = 1
-         label.text = "Attack: "
+
+         label.text = "Name: "
          return label
      }()
-     
-    private let creatorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.text = "Attack: "
-        return label
-    }()
-    private let rsvpLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.text = "Attack: "
-        return label
-    }()
-    private let startDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.text = "Attack: "
-        return label
-    }()
+    private let passwordLabel: UILabel = {
+         let label = UILabel()
+         label.translatesAutoresizingMaskIntoConstraints = false
+         label.font = .systemFont(ofSize: 30)
+         label.textColor = .white
+         label.textAlignment = .center
+         label.numberOfLines = 1
+
+         label.text = "Name: "
+         return label
+     }()
     
     private let backButton: LoadingButton = {
         let btn = LoadingButton()

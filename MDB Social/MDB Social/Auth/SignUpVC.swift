@@ -63,19 +63,30 @@ class SignUpVC: UIViewController {
         stack.addArrangedSubview(setPasswordField)
         
         NSLayoutConstraint.activate([ //this constraint makes shit weird
-                stack.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: contentEdgeInset.left),
-                stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -contentEdgeInset.right),
-                stack.topAnchor.constraint(equalTo: view.bottomAnchor, constant: 60)
+            view.centerXAnchor.constraint(equalTo: stack.centerXAnchor),
+            view.centerYAnchor.constraint(equalTo: stack.centerYAnchor),
+            stack.widthAnchor.constraint(equalToConstant: view.bounds.width * 0.75)
+
         ])
+        
+        
         view.addSubview(signupButton)
+        view.addSubview(backButton)
         NSLayoutConstraint.activate([
             signupButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
             signupButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
             signupButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
-            signupButton.heightAnchor.constraint(equalToConstant: signupButtonHeight)
+            signupButton.heightAnchor.constraint(equalToConstant: signupButtonHeight),
+            
+            backButton.leadingAnchor.constraint(equalTo: signupButton.leadingAnchor),
+            backButton.topAnchor.constraint(equalTo: signupButton.bottomAnchor, constant: 25),
+            backButton.trailingAnchor.constraint(equalTo: signupButton.trailingAnchor),
+            backButton.heightAnchor.constraint(equalToConstant: signupButtonHeight)
         ])
         signupButton.layer.cornerRadius = signupButtonHeight / 2
+        backButton.layer.cornerRadius = signupButtonHeight / 2
         signupButton.addTarget(self, action: #selector(didTapSignUp(_:)), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(didTapBack(_:)), for: .touchUpInside)
         
 
     }
@@ -124,7 +135,31 @@ class SignUpVC: UIViewController {
         return btn
     }()
         
+    private let backButton: LoadingButton = {
+        let btn = LoadingButton()
+        btn.layer.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        btn.setTitle("Back", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        btn.isUserInteractionEnabled = true
+        
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+        
+    }()
     
+    @objc func didTapBack(_ sender: UIButton) {
+        backButton.showLoading()
+
+        guard let window = UIApplication.shared
+                .windows.filter({ $0.isKeyWindow }).first else { return }
+        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateInitialViewController()
+        window.rootViewController = vc
+        let options: UIView.AnimationOptions = .transitionCrossDissolve
+        let duration: TimeInterval = 0.3
+        UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
+        
+    }
     @objc func didTapSignUp(_ sender: UIButton) {
         guard let email = setEmailField.text, email != "" else {
             showErrorBanner(withTitle: "Missing email",
@@ -171,7 +206,7 @@ class SignUpVC: UIViewController {
                 case .missingFields:
                     self?.showErrorBanner(withTitle: "There are missing fields", subtitle: "Please fill out all fields")
                 case .weakPassword:
-                    self?.showErrorBanner(withTitle: "Password is too weak", subtitle: "Please enter a password containing at least 1 letter, 1 number, and 1 special character")
+                    self?.showErrorBanner(withTitle: "Password is too weak", subtitle: "Please enter a password containing at least 8 characters")
                 case .internalError:
                     self?.showErrorBanner(withTitle: "An internal error occured",
                                           subtitle: "Please try again later")
