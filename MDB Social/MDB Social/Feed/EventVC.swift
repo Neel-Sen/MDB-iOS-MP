@@ -8,144 +8,77 @@
 import UIKit
 
 class EventVC: UIViewController {
+    //displays all events
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 30
+        layout.minimumInteritemSpacing = 30
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.register(EventCell.self, forCellWithReuseIdentifier: EventCell.reuseIdentifier)
+        
+        return collectionView
+    }()
     
-    static let reuseIdentifier: String = String(describing: EventVC.self)
-
-    private let stack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .equalSpacing
-        stack.spacing = 25
-
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
+    private let button: UIButton = {
+        let grid = UIButton(frame: CGRect(x: 1300, y: 400, width: 50, height: 50))
+        grid.setTitle("Row", for: .normal)
+        grid.setTitleColor(.blue, for: .normal)
+        grid.backgroundImage(for: .normal)
+        grid.backgroundColor = .red
+        grid.tintColor = .black
+        grid.translatesAutoresizingMaskIntoConstraints = false
+        
+        return grid
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .purple
-        view.addSubview(stack)
-        stack.addArrangedSubview(nameLabel)
-        stack.addArrangedSubview(descriptionLabel)
-        stack.addArrangedSubview(photoLabel)
-        stack.addArrangedSubview(startLabel)
-        stack.addArrangedSubview(rsvpLabel)
-        stack.addArrangedSubview(creatorLabel)
-        stack.addArrangedSubview(startDateLabel)
-        stack.addSubview(backButton)
         // Do any additional setup after loading the view.
-    }
-    
-    private let nameLabel: UILabel = {
-         let label = UILabel()
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.font = .systemFont(ofSize: 30)
-         label.textColor = .white
-         label.textAlignment = .center
-         label.numberOfLines = 1
-
-         label.text = "Name: "
-         return label
-     }()
-     
-     private let descriptionLabel: UILabel = {
-         let label = UILabel()
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.font = .systemFont(ofSize: 30)
-         label.textColor = .white
-         label.textAlignment = .center
-         
-         label.numberOfLines = 1
-         label.text = "Health: "
-         return label
-     }()
-     
-     private let photoLabel: UILabel = {
-         let label = UILabel()
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.font = .systemFont(ofSize: 30)
-         label.textColor = .white
-         label.textAlignment = .center
-         label.numberOfLines = 1
-         label.text = "Types: "
-         return label
-     }()
-     
-     private let startLabel: UILabel = {
-         let label = UILabel()
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.font = .systemFont(ofSize: 30)
-         label.textColor = .white
-         label.textAlignment = .center
-         label.numberOfLines = 1
-         label.text = "Attack: "
-         return label
-     }()
-     
-    private let creatorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.text = "Attack: "
-        return label
-    }()
-    private let rsvpLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.text = "Attack: "
-        return label
-    }()
-    private let startDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 1
-        label.text = "Attack: "
-        return label
-    }()
-    
-    private let backButton: LoadingButton = {
-        let btn = LoadingButton()
-        btn.layer.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        btn.setTitle("Back", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        btn.isUserInteractionEnabled = true
+        view.backgroundColor = #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)
         
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
+        view.addSubview(collectionView)
+        view.addSubview(button)
+        //button.frame = CGRectMake(800, 700, 100, 100)
+        //button.frame = view.bounds.inset(by: UIEdgeInsets(top: 80, left: 400, bottom: 800, right: 200))
+        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 20, left: 30, bottom: 20, right: 30))
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.allowsSelection = true
+        collectionView.allowsMultipleSelection = false
+        //view.bringSubviewToFront(button)
         
-    }()
-    
-    @objc func didTapBack(_ sender: UIButton) {
-        backButton.showLoading()
-
-        guard let window = UIApplication.shared
-                .windows.filter({ $0.isKeyWindow }).first else { return }
-        let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateInitialViewController()
-        window.rootViewController = vc
-        let options: UIView.AnimationOptions = .transitionCrossDissolve
-        let duration: TimeInterval = 0.3
-        UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
-        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            //button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
+            //button.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            //button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
+            //button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)
+        ])
     }
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension EventVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection
+                            section: Int) -> Int {
+        return event
     }
-    */
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt
+                            indexPath: IndexPath) -> UICollectionViewCell {
+        let poke = pokemons[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventCell.reuseIdentifier,
+                                                      for: indexPath) as! EventCell
+        cell.pokemonk = poke
+        return cell
+    }
+}
+
+extension EventVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt IndexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.bounds.width * 0.6, height: view.bounds.height * 0.2)
+    }
 
 }

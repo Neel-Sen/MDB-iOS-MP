@@ -28,6 +28,7 @@
 		1AF3867E25E877B40006AE59 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF3867D25E877B40006AE59 /* LoadingButton.swift */; };
 		1AF3868125E88AA20006AE59 /* FIRDatabaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF3868025E88AA20006AE59 /* FIRDatabaseRequest.swift */; };
 		88D1856E3E3B7E97C54E6FB3 /* Pods_MDB_Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E51BF3FE48C081C2540BE42E /* Pods_MDB_Social.framework */; };
+		B85F237F2602050A00AB12ED /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F237E2602050A00AB12ED /* EventCell.swift */; };
 		B8C0374225F8D21D001FEBED /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0374125F8D21C001FEBED /* SignUpVC.swift */; };
 		B8C0374525FB5252001FEBED /* EventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0374425FB5252001FEBED /* EventVC.swift */; };
 		B8C0374925FC1DBB001FEBED /* DisplayUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0374825FC1DBB001FEBED /* DisplayUserVC.swift */; };
@@ -57,6 +58,7 @@
 		1AF3867D25E877B40006AE59 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
 		1AF3868025E88AA20006AE59 /* FIRDatabaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRDatabaseRequest.swift; sourceTree = "<group>"; };
 		97EDB17FB89D773DE44696EF /* Pods-MDB Social.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MDB Social.debug.xcconfig"; path = "Target Support Files/Pods-MDB Social/Pods-MDB Social.debug.xcconfig"; sourceTree = "<group>"; };
+		B85F237E2602050A00AB12ED /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		B8C0374125F8D21C001FEBED /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		B8C0374425FB5252001FEBED /* EventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventVC.swift; sourceTree = "<group>"; };
 		B8C0374825FC1DBB001FEBED /* DisplayUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayUserVC.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				1AF3865125E83C1A0006AE59 /* FeedNavigationVC.swift */,
 				B8C0374825FC1DBB001FEBED /* DisplayUserVC.swift */,
 				B8C0374425FB5252001FEBED /* EventVC.swift */,
+				B85F237E2602050A00AB12ED /* EventCell.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				1AF385F625E812170006AE59 /* SigninVC.swift in Sources */,
 				1AF3865F25E855BE0006AE59 /* UIColor+ColorScheme.swift in Sources */,
 				1AF3864025E81A9E0006AE59 /* AuthProvider.swift in Sources */,
+				B85F237F2602050A00AB12ED /* EventCell.swift in Sources */,
 				B8C0374225F8D21D001FEBED /* SignUpVC.swift in Sources */,
 				1AF385F225E812170006AE59 /* AppDelegate.swift in Sources */,
 				B8C0374925FC1DBB001FEBED /* DisplayUserVC.swift in Sources */,
