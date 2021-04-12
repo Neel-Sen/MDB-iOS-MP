@@ -43,8 +43,8 @@ class EventVC: UIViewController {
         //button.frame = CGRectMake(800, 700, 100, 100)
         //button.frame = view.bounds.inset(by: UIEdgeInsets(top: 80, left: 400, bottom: 800, right: 200))
         collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 20, left: 30, bottom: 20, right: 30))
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        //collectionView.delegate = self
+        //collectionView.dataSource = self
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
         //view.bringSubviewToFront(button)
@@ -60,7 +60,7 @@ class EventVC: UIViewController {
     }
 }
 
-extension EventVC: UICollectionViewDataSource {
+/*extension EventVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection
                             section: Int) -> Int {
         return event
@@ -81,4 +81,4 @@ extension EventVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: view.bounds.width * 0.6, height: view.bounds.height * 0.2)
     }
 
-}
+} */

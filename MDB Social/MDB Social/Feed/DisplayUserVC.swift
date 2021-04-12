@@ -13,7 +13,6 @@ class DisplayUserVC: UIViewController {
         stack.axis = .vertical
         stack.distribution = .equalSpacing
         stack.spacing = 25
-
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -25,6 +24,7 @@ class DisplayUserVC: UIViewController {
         stack.addArrangedSubview(userNameLabel)
         stack.addArrangedSubview(emailLabel)
         stack.addArrangedSubview(passwordLabel)
+        stack.addArrangedSubview(rsvpLabel)
         stack.addSubview(backButton)
         // Do any additional setup after loading the view.
     }
@@ -37,6 +37,18 @@ class DisplayUserVC: UIViewController {
          label.numberOfLines = 1
 
          label.text = "Name: "
+         return label
+     }()
+    
+    private let rsvpLabel: UILabel = {
+         let label = UILabel()
+         label.translatesAutoresizingMaskIntoConstraints = false
+         label.font = .systemFont(ofSize: 30)
+         label.textColor = .white
+         label.textAlignment = .center
+         label.numberOfLines = 1
+
+         label.text = "RSVP: "
          return label
      }()
     private let userNameLabel: UILabel = {

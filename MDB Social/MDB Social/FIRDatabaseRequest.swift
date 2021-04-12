@@ -14,6 +14,8 @@ class FIRDatabaseRequest {
     
     let db = Firestore.firestore()
     
+    var listener = ListenerRegistration?
+    
     func setUser(_ user: User, completion: (()->Void)?) {
         guard let uid = user.uid else { return }
         do {
@@ -36,19 +38,29 @@ class FIRDatabaseRequest {
     
     func getEvents() -> [Event] {
         var eventsList: [Event] = []
-        let _ = db.collection("events").addSnapshotListener{querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("error getting documents from snapshot")
-                return }
-            for document in documents {
-                
-                guard let receivedEvent = try? document.data(as: Event.self) else {
-                    print("document event doesn't exist")
-                    return
+        if (FIRAuthProvider.shared.isSignedIn()) {
+            listener = db.collection("events").order(by: "startTimeStamp", descending: true)
+                    .addSnapshotListener { querySnapshot, error in
+                    events = []
+                        if (FIRAuthProvider.shared.isSignedIn()) {
+                            guard let documents = querySnapshot?.documents else {
+                                print("Error fetching documents: \(error!)")
+                                print("error in getEvents")
+                                return
+                            }
+                            for document in documents {
+                                guard let event = try? document.data(as: Event.self) else {
+                                    print("problem converting document into event")
+                                    return
+                                }
+                                events.append(event)
+                            }
+                            vc.updateEvents(newEvents: events)
+                        }
+                        
                 }
-                eventsList.append(receivedEvent)
-            }
+        
+            return events
         }
-        return eventsList
     }
 }

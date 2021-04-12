@@ -15,7 +15,7 @@ class EventCell: UIViewController {
         didSet {
             
             idView.text = event!.name //should I put this inside the nested if-lets?
-            titleView.text = String(pokemonk!.id)
+            //titleView.text = String(pokemonk!.id)
         }
     }
     private let imageView: UIImageView = {
@@ -46,7 +46,7 @@ class EventCell: UIViewController {
         return label
     }()
     
-    override init(frame: CGRect) {
+    /*override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
         contentView.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
@@ -71,7 +71,7 @@ class EventCell: UIViewController {
 
             
         ])
-    }
+    }*/
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
