@@ -30,6 +30,8 @@
 		1AF3868125E88AA20006AE59 /* FIRDatabaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF3868025E88AA20006AE59 /* FIRDatabaseRequest.swift */; };
 		88D1856E3E3B7E97C54E6FB3 /* Pods_MDB_Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E51BF3FE48C081C2540BE42E /* Pods_MDB_Social.framework */; };
 		B85F237F2602050A00AB12ED /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F237E2602050A00AB12ED /* EventCell.swift */; };
+		B85F23882626471600AB12ED /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F23872626471600AB12ED /* Store.swift */; };
+		B85F238B2626F4A100AB12ED /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F238A2626F4A100AB12ED /* CreateEventViewController.swift */; };
 		B8C0374225F8D21D001FEBED /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0374125F8D21C001FEBED /* SignUpVC.swift */; };
 		B8C0374525FB5252001FEBED /* EventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0374425FB5252001FEBED /* EventVC.swift */; };
 		B8C0374925FC1DBB001FEBED /* DisplayUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C0374825FC1DBB001FEBED /* DisplayUserVC.swift */; };
@@ -61,6 +63,8 @@
 		1AF3868025E88AA20006AE59 /* FIRDatabaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRDatabaseRequest.swift; sourceTree = "<group>"; };
 		97EDB17FB89D773DE44696EF /* Pods-MDB Social.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MDB Social.debug.xcconfig"; path = "Target Support Files/Pods-MDB Social/Pods-MDB Social.debug.xcconfig"; sourceTree = "<group>"; };
 		B85F237E2602050A00AB12ED /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		B85F23872626471600AB12ED /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		B85F238A2626F4A100AB12ED /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		B8C0374125F8D21C001FEBED /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		B8C0374425FB5252001FEBED /* EventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventVC.swift; sourceTree = "<group>"; };
 		B8C0374825FC1DBB001FEBED /* DisplayUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayUserVC.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 				1AF3862425E816540006AE59 /* User.swift */,
 				1AF3863F25E81A9E0006AE59 /* AuthProvider.swift */,
 				1AF3864225E81C4A0006AE59 /* Event.swift */,
+				B85F23872626471600AB12ED /* Store.swift */,
 				1AF3868025E88AA20006AE59 /* FIRDatabaseRequest.swift */,
 			);
 			name = Models;
@@ -161,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				1AF3864D25E83B850006AE59 /* FeedVC.swift */,
+				B85F238A2626F4A100AB12ED /* CreateEventViewController.swift */,
 				1AF3865125E83C1A0006AE59 /* FeedNavigationVC.swift */,
 				B8C0374825FC1DBB001FEBED /* DisplayUserVC.swift */,
 				B8C0374425FB5252001FEBED /* EventVC.swift */,
@@ -328,7 +334,9 @@
 				1AF3864325E81C4A0006AE59 /* Event.swift in Sources */,
 				1AF3865225E83C1A0006AE59 /* FeedNavigationVC.swift in Sources */,
 				1AF3868125E88AA20006AE59 /* FIRDatabaseRequest.swift in Sources */,
+				B85F23882626471600AB12ED /* Store.swift in Sources */,
 				1AF385F425E812170006AE59 /* SceneDelegate.swift in Sources */,
+				B85F238B2626F4A100AB12ED /* CreateEventViewController.swift in Sources */,
 				B8C0374525FB5252001FEBED /* EventVC.swift in Sources */,
 				1AF3865925E83E720006AE59 /* UIColor+Hex.swift in Sources */,
 				1AF3865C25E8403E0006AE59 /* AuthTextField.swift in Sources */,

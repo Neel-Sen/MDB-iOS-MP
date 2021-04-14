@@ -45,7 +45,6 @@ class FIRDatabaseRequest {
                         if (FIRAuthProvider.shared.isSignedIn()) {
                             guard let documents = querySnapshot?.documents else {
                                 print("Error fetching documents: \(error!)")
-                                print("error in getEvents")
                                 return
                             }
                             for document in documents {

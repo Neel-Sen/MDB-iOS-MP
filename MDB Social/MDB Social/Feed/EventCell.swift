@@ -6,84 +6,145 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class EventCell: UIViewController {
 
     static let reuseIdentifier: String = String(describing: EventCell.self)
-    
-    var event: Event? {
-        didSet {
-            
-            idView.text = event!.name //should I put this inside the nested if-lets?
-            //titleView.text = String(pokemonk!.id)
-        }
-    }
-    private let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.tintColor = .black
-        iv.contentMode = .scaleAspectFit
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        return iv
-    }()
-    private let titleView: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 0
         
-        return label
-    }()
-    
-    private let idView: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    /*override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
-        contentView.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-        addSubview(imageView)
-        addSubview(titleView)
-        addSubview(idView)
-
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            idView.topAnchor.constraint(equalTo: contentView.bottomAnchor),
-            idView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            idView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            idView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -1 * frame.height / 275),
-            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1 * (frame.height / 140)),
-            titleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-
-            imageView.bottomAnchor.constraint(equalTo: idView.topAnchor, constant: -5),
-            imageView.heightAnchor.constraint(equalToConstant: frame.height / 2)
-
+        private var rsvpNames: [String] = []
+        
+        var event: Event? {
+            didSet {
+                //set picture of event, name of member, name of event, name of people who RSVP'd
+                let gsReference: StorageReference = FIRStorage.shared.storage.reference(forURL: event!.photoURL)
+                gsReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("bad stuff happened: \(error)")
+                      } else {
+                        self.imageView.image = UIImage(data: data!)
+                      }
+                }
+                
+                nameEvent.text = event?.name
+                
+                //userIDs = [creator, rsvpd1, rsvpd2, ...]
+                //var userIDs: [UserID] = [event!.creator]
+                //userIDs.append(contentsOf: event!.rsvpUsers)
+                
+                rsvpd.text = "RSVP'd: \(event?.rsvpUsers.count ?? 0)"
+                
+                //lists the NAMES of the rsvp'd rather than just count
+    //            for uid in userIDs {
+    //                let docRef = FIRDatabaseRequest.shared.db.collection("users").document(uid)
+    //                docRef.getDocument(completion: { (querySnapshot, err) in
+    //                    if let err = err {
+    //                        print("Error getting documents: \(err)")
+    //                        print("Error in getting the userIDs of rsvpd")
+    //                    } else {
+    //                        guard let user = try? querySnapshot?.data(as: User.self) else {
+    //                            return
+    //                        }
+    //                        if (uid == self.event?.creator) {
+    //                            self.nameMember.text = user.fullname
+    //                        } else {
+    //                            self.rsvpNames.append(user.fullname)
+    //                        }
+    //                    }
+    //                })
+    //            }
+                //rsvpd.text = "RSVP'd: " + rsvpNames.joined(separator: ", ")
+                
+                let docRef = FIRDatabaseRequest.shared.db.collection("users").document(event!.creator)
+                docRef.getDocument(completion: { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting docuemnt of event creator: \(err)")
+                    } else {
+                        guard let user = try? querySnapshot?.data(as: User.self) else {
+                            print("error in getting user of creator")
+                            return
+                        }
+                        self.nameMember.text = user.fullname
+                    }
+                })
+                
+            }
+        }
+        
+        private let imageView: UIImageView = {
+            let iv = UIImageView()
+            iv.contentMode = .scaleAspectFit
+            iv.translatesAutoresizingMaskIntoConstraints = false
+            return iv
+        }()
+        
+        private let nameEvent: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.boldSystemFont(ofSize: 23)
+            label.textColor = .darkGray
+            label.numberOfLines = 0
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+        
+        private let nameMember: UILabel = {
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 19)
+            label.textColor = .gray
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+        
+        private let rsvpd: UILabel = {
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 16)
+            label.textColor = .lightGray
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            backgroundColor = UIColor(red: 226/255, green: 234/255, blue: 252/255, alpha: 1)
             
-        ])
-    }*/
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+            contentView.addSubview(imageView)
+            contentView.addSubview(nameEvent)
+            contentView.addSubview(nameMember)
+            contentView.addSubview(rsvpd)
+            
+            //source for rounded cells: https://medium.com/dev-genius/swift-how-to-create-a-rounded-collectionviewcell-with-shadow-d696bd46c43f
+            self.layer.cornerRadius = 15.0
+            self.layer.borderWidth = 5.0
+            self.layer.borderColor = UIColor.clear.cgColor
+            self.layer.masksToBounds = true
+            self.contentView.layer.cornerRadius = 15.0
+            self.contentView.layer.borderWidth = 5.0
+            self.contentView.layer.borderColor = UIColor.clear.cgColor
+            self.contentView.layer.masksToBounds = true
+            self.layer.shadowColor = UIColor.white.cgColor
+            self.layer.shadowOffset = CGSize(width: 0, height: 0.0)
+            self.layer.shadowRadius = 6.0
+            self.layer.shadowOpacity = 0.6
+            self.layer.cornerRadius = 15.0
+            self.layer.masksToBounds = false
+            self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.contentView.layer.cornerRadius).cgPath
+            
+            NSLayoutConstraint.activate([
+                imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35),
+                imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+                imageView.widthAnchor.constraint(equalToConstant: 100),
+                imageView.heightAnchor.constraint(equalToConstant: 100),
+                nameEvent.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+                nameEvent.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+                nameMember.topAnchor.constraint(equalTo: nameEvent.bottomAnchor, constant: 10),
+                nameMember.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+                rsvpd.topAnchor.constraint(equalTo: nameMember.bottomAnchor, constant: 10),
+                rsvpd.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30)
+            ])
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
 
 }
