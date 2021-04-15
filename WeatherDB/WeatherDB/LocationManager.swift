@@ -22,23 +22,41 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     var location: CLLocation?
     
     override init() {
-        super.init()
-        manager.requestWhenInUseAuthorization()
-        manager.delegate = self
-        manager.distanceFilter = 1000
-        manager.requestLocation()
-        manager.startUpdatingLocation()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = locations.first
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+            super.init()
+            manager.requestWhenInUseAuthorization()
+                        
+            manager.delegate = self
+            manager.distanceFilter = 1000
+            manager.requestLocation()
+            manager.startUpdatingLocation()
+            
+            if !CLLocationManager.significantLocationChangeMonitoringAvailable() {
+                // The device does not support this service.
+                return
+            }
+            manager.startMonitoringSignificantLocationChanges()
+        }
         
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            if (MainVC.initialCurrDone == 1 && location!.coordinate.latitude != locations.first!.coordinate.latitude) {
+                print(location!.coordinate.latitude)
+                print(locations.first!.coordinate.latitude)
+                print("calling updateCurrLocation")
+                GMSPlaces.shared.updateCurrLocation()
+            }
+            location = locations.first
+        }
         
-    }
+        func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+            
+        }
+        
+        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            MainVC.currLocFailed = true
+            if let error = error as? CLError, error.code == .denied {
+                  print("Location updates are not authorized: \(error.localizedDescription)")
+                  manager.stopMonitoringSignificantLocationChanges()
+                  return
+               }
+        }
 }
