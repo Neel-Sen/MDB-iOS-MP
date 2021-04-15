@@ -23,7 +23,7 @@ class EventVC: UIViewController {
         
         var currEvent: Event? {
             didSet {
-                let gsReference: StorageReference = FIRStorage.shared.storage.reference(forURL: currEvent!.photoURL)
+                let gsReference: StorageReference = Store.shared.storage.reference(forURL: currEvent!.photoURL)
                 gsReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
                     if let error = error {
                         print("bad stuff happened: \(error)")

@@ -6,19 +6,19 @@
 //
 
 import Foundation
-import FirebaseStorage
+import Firebase
 
 class Store {
 
     static let shared = Store()
        
-       let storage = Store.storage()
+    let storage = Storage.storage()
        
-       let metadata: StorageMetadata = {
+    let metadata: StorageMetadata = {
            let newMetadata = StorageMetadata()
            newMetadata.contentType = "image/jpeg"
            return newMetadata
-       }()
+    }()
     
 
     /*

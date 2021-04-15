@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseStorage
 
-class EventCell: UIViewController {
+class EventCell: UICollectionViewCell {
 
     static let reuseIdentifier: String = String(describing: EventCell.self)
         
@@ -17,10 +17,10 @@ class EventCell: UIViewController {
         var event: Event? {
             didSet {
                 //set picture of event, name of member, name of event, name of people who RSVP'd
-                let gsReference: StorageReference = FIRStorage.shared.storage.reference(forURL: event!.photoURL)
+                let gsReference: StorageReference = Store.shared.storage.reference(forURL: event!.photoURL)
                 gsReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
                     if let error = error {
-                        print("bad stuff happened: \(error)")
+                        print("error: \(error)")
                       } else {
                         self.imageView.image = UIImage(data: data!)
                       }

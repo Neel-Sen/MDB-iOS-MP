@@ -15,7 +15,6 @@ class SigninVC: UIViewController {
         stack.axis = .vertical
         stack.distribution = .equalSpacing
         stack.spacing = 25
-
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()

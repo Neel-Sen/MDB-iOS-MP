@@ -160,8 +160,8 @@ class CreateEventVC: UIViewController, UINavigationControllerDelegate {
         let currID: UserID = FIRAuthProvider.shared.currentUser!.uid ?? ""
         
         //upload image to firestore
-        let ref = FIRStorage.shared.storage.reference().child(UUID().uuidString + ".jpeg")
-        _ = ref.putData(pickedImageData!, metadata: FIRStorage.shared.metadata) { (metadata, error) in
+        let ref = Store.shared.storage.reference().child(UUID().uuidString + ".jpeg")
+        _ = ref.putData(pickedImageData!, metadata: Store.shared.metadata) { (metadata, error) in
           ref.downloadURL { (url, error) in
             guard let downloadURL = url else {
                 print("ERROR OCCURED WHILE DOWNLOADING URL - error: \(String(describing: error))")

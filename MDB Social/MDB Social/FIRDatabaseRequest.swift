@@ -11,10 +11,10 @@ import FirebaseFirestore
 class FIRDatabaseRequest {
     
     static let shared = FIRDatabaseRequest()
-    
+    var listener: ListenerRegistration?
+
     let db = Firestore.firestore()
     
-    var listener = ListenerRegistration?
     
     func setUser(_ user: User, completion: (()->Void)?) {
         guard let uid = user.uid else { return }
@@ -36,12 +36,11 @@ class FIRDatabaseRequest {
     
     /* TODO: Events getter */
     
-    func getEvents() -> [Event] {
+    func getEvents(vc: FeedVC) -> [Event] {
         var eventsList: [Event] = []
         if (FIRAuthProvider.shared.isSignedIn()) {
-            listener = db.collection("events").order(by: "startTimeStamp", descending: true)
-                    .addSnapshotListener { querySnapshot, error in
-                    events = []
+            listener = db.collection("events").order(by: "startTimeStamp", descending: true).addSnapshotListener { querySnapshot, error in
+                    eventsList = []
                         if (FIRAuthProvider.shared.isSignedIn()) {
                             guard let documents = querySnapshot?.documents else {
                                 print("Error fetching documents: \(error!)")
@@ -52,14 +51,15 @@ class FIRDatabaseRequest {
                                     print("problem converting document into event")
                                     return
                                 }
-                                events.append(event)
+                                eventsList.append(event)
                             }
-                            vc.updateEvents(newEvents: events)
+                            vc.updateEvents(events: eventsList)
                         }
                         
                 }
         
-            return events
+            return eventsList
         }
+        return []
     }
 }

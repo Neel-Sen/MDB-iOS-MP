@@ -8,60 +8,132 @@
 import UIKit
 
 class FeedVC: UIViewController {
+    var e : [Event]?
     
-    private let signOutButton: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        btn.backgroundColor = .primary
-        btn.setImage(UIImage(systemName: "Sign Out"), for: .normal)
-        let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30, weight: .medium))
-        btn.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        btn.tintColor = .white
-        btn.layer.cornerRadius = 50
-        
-        return btn
-    }()
-    
-    private let profileButton: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        btn.backgroundColor = .primary
-        btn.setImage(UIImage(systemName: "Profile"), for: .normal)
-        let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30, weight: .medium))
-        btn.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-        btn.tintColor = .white
-        btn.layer.cornerRadius = 50
-        
-        return btn
-    }()
-    override func viewDidLoad() {
-        view.addSubview(signOutButton)
-        view.addSubview(profileButton)
-        profileButton.center = view.center
-        signOutButton.center = view.center
-        signOutButton.addTarget(self, action: #selector(didTapSignOut(_:)), for: .touchUpInside)
-        signOutButton.addTarget(self, action: #selector(didTapProfile(_:)), for: .touchUpInside) //do this
+    func updateEvents(events: [Event]) {
+        e = events
+        collectionView.reloadData()
     }
-    
-    @objc func didTapSignOut(_ sender: UIButton) {
-        FIRAuthProvider.shared.signOut {
-            guard let window = UIApplication.shared
-                    .windows.filter({ $0.isKeyWindow }).first else { return }
-            let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateInitialViewController()
-            window.rootViewController = vc
-            let options: UIView.AnimationOptions = .transitionCrossDissolve
-            let duration: TimeInterval = 0.3
-            UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
+    let titleLabel: UILabel = {
+            let lbl = UILabel()
+            lbl.text = "MDB Socials"
+            lbl.font = UIFont.boldSystemFont(ofSize: 30)
+            lbl.textColor = UIColor(red: 133/255, green: 169/255, blue: 255/255, alpha: 1)
+            lbl.textAlignment = .center
+            lbl.translatesAutoresizingMaskIntoConstraints = false
+            return lbl
+        }()
+        
+        let collectionView: UICollectionView = {
+            let layout = UICollectionViewFlowLayout()
+            layout.minimumLineSpacing = 15
+            layout.minimumInteritemSpacing = 0
+            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.register(EventCell.self, forCellWithReuseIdentifier: EventCell.reuseIdentifier)
+            
+            return collectionView
+        }()
+        
+        private let signOutButton: UIButton = {
+            let btn = UIButton()
+            btn.backgroundColor = UIColor(red: 217/255, green: 4/255, blue: 41/255, alpha: 1)
+            btn.setImage(UIImage(systemName: "xmark"), for: .normal)
+            let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30, weight: .medium))
+            btn.setPreferredSymbolConfiguration(config, forImageIn: .normal)
+            btn.tintColor = .white
+            btn.layer.cornerRadius = 8
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            return btn
+        }()
+        
+        private let createEventButton: UIButton = {
+            let btn = UIButton()
+            btn.backgroundColor = UIColor(red: 171/255, green: 196/255, blue: 255/255, alpha: 1)
+            btn.setImage(UIImage(systemName: "plus"), for: .normal)
+            let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 40, weight: .medium))
+            btn.setPreferredSymbolConfiguration(config, forImageIn: .normal)
+            btn.tintColor = .white
+            btn.layer.cornerRadius = 10
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            return btn
+        }()
+        
+        override func viewDidLoad() {
+            e = FIRDatabaseRequest.shared.getEvents(vc: self)
+            view.addSubview(signOutButton)
+            NSLayoutConstraint.activate([
+                signOutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
+                signOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+                signOutButton.widthAnchor.constraint(equalTo: signOutButton.heightAnchor, constant: 10)
+            ])
+            signOutButton.addTarget(self, action: #selector(didTapSignOut(_:)), for: .touchUpInside)
+            
+            view.addSubview(titleLabel)
+            NSLayoutConstraint.activate([
+                titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+                titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+                titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+            ])
+            
+            view.addSubview(collectionView)
+            collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 170, left: 10, bottom: 90, right: 10))
+            collectionView.backgroundColor = .clear
+            collectionView.dataSource = self
+            collectionView.delegate = self
+            
+            view.addSubview(createEventButton) // can't make button round
+            NSLayoutConstraint.activate([
+                createEventButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40),
+                createEventButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                createEventButton.widthAnchor.constraint(equalToConstant: view.frame.width * (4/5)),
+                createEventButton.heightAnchor.constraint(equalToConstant: 43)
+            ])
+            createEventButton.addTarget(self, action: #selector(didTapCreateEvent(_:)), for: .touchUpInside)
+        }
+        
+        @objc func didTapSignOut(_ sender: UIButton) {
+            FIRAuthProvider.shared.signOut {
+                guard let window = UIApplication.shared
+                        .windows.filter({ $0.isKeyWindow }).first else { return }
+                let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateInitialViewController()
+                window.rootViewController = vc
+                let options: UIView.AnimationOptions = .transitionCrossDissolve
+                let duration: TimeInterval = 0.3
+                UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
+            }
+        }
+        
+        @objc func didTapCreateEvent(_ sender: UIButton) {
+            let vc = CreateEventVC()
+            present(vc, animated: true, completion: nil)
+        }
+        
+    }
+
+    extension FeedVC: UICollectionViewDataSource {
+        
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return e?.count ?? 0
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let event = e?[indexPath.item]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EventCell.reuseIdentifier, for: indexPath) as! EventCell
+            cell.event = event
+            return cell
         }
     }
-    
-    @objc func didTapProfile(_ sender: UIButton) { //configure for profile
-        FIRAuthProvider.shared.signOut {
-            guard let window = UIApplication.shared
-                    .windows.filter({ $0.isKeyWindow }).first else { return }
-            let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateInitialViewController()
-            window.rootViewController = vc
-            let options: UIView.AnimationOptions = .transitionCrossDissolve
-            let duration: TimeInterval = 0.3
-            UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
+
+    extension FeedVC: UICollectionViewDelegateFlowLayout {
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return CGSize(width: view.frame.width * (4/5), height: 160)
         }
-    }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let event = e?[indexPath.item]
+            let vc = EventVC()
+            vc.currEvent = event
+            present(vc, animated: true, completion: nil)
+        }
 }
